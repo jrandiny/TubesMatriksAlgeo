@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Matriks {
@@ -11,6 +13,34 @@ public class Matriks {
 
     public Matriks(){
         isi = new double[NMAX][NMAX];
+    }
+
+    public Matriks(String namaFile){
+        File file = new File(namaFile);
+
+        System.out.println("masuk");
+
+        try {
+            Scanner scn = new Scanner(file);
+
+            int row = scn.nextInt();
+            int col = scn.nextInt();
+
+            scn.nextLine();
+
+            isi = new double[row][col];
+
+            for (int i = 0; i < isi.length; i++) {
+                for (int j = 0; j < isi[i].length; j++) {
+                    double content = scn.nextDouble();
+                    this.set(i,j,content);
+                }
+                scn.nextLine();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void print(){
@@ -46,21 +76,21 @@ public class Matriks {
         this.Tambah(row,rowLain,1);
     }
 
-    public void Tambah(int row, int rowLain, int kali){
+    private void Tambah(int row, int rowLain, int kali){
         //nambahin row 1 dgn row lainnya
         for (int j = 0; j < isi[row].length; j++) {
             isi[row][j] = isi[row][j] + kali*isi[rowLain][j];
         }
     }
 
-    public void Kali(int row, int X){
+    private void Kali(int row, int X){
         //kali isi dari row dgn X
         for (int j = 0; j < isi[row].length; j++) {
             isi[row][j] = isi[row][j] * X;
         }
     }
 
-    public void TukarRow(int row1, int row2){
+    private void TukarRow(int row1, int row2){
         //nuker isi row1 dengan isi row2
         double[][] temp = new double[isi.length][isi[1].length];
 
@@ -71,7 +101,7 @@ public class Matriks {
         }
     }
 
-    public int nolBanyak(){
+    private int nolBanyak(){
         //cari baris/row yang 0 nya paling banyak
         int max = -999;
         int NMax,row;
