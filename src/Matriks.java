@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Matriks {
@@ -15,31 +16,39 @@ public class Matriks {
         isi = new double[NMAX][NMAX];
     }
 
-    public Matriks(String namaFile){
+    public void bacaFile(String namaFile){
         File file = new File(namaFile);
-
-        System.out.println("masuk");
+        int row = 0;
+        ArrayList<ArrayList<Double>> temp = new ArrayList<ArrayList<Double>>();
 
         try {
-            Scanner scn = new Scanner(file);
+            Scanner scn = new Scanner(file).useDelimiter(" ");
 
-            int row = scn.nextInt();
-            int col = scn.nextInt();
-
-            scn.nextLine();
-
-            isi = new double[row][col];
-
-            for (int i = 0; i < isi.length; i++) {
-                for (int j = 0; j < isi[i].length; j++) {
-                    double content = scn.nextDouble();
-                    this.set(i,j,content);
+            while(scn.hasNextLine()){
+                temp.add(new ArrayList<Double>());
+                while(scn.hasNextDouble()){
+                    temp.get(row).add(scn.nextDouble());
                 }
+                row++;
                 scn.nextLine();
+
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+
+
+
+        if(row != 0){
+            isi = new double[temp.size()][temp.get(0).size()];
+
+            for (int i = 0; i < temp.size(); i++) {
+                for (int j = 0; j < temp.get(0).size(); j++) {
+                    isi[i][j] = temp.get(i).get(j);
+                }
+            }
+
         }
     }
 
@@ -55,6 +64,11 @@ public class Matriks {
     public void baca(){
         Scanner scn = new Scanner(System.in);
         double content;
+
+        int row = scn.nextInt();
+        int col = scn.nextInt();
+
+        isi = new double[row][col];
 
         for (int i = 0; i < isi.length; i++) {
             for (int j = 0; j < isi[i].length; j++) {

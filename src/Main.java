@@ -69,9 +69,13 @@ public class Main {
 
                 String namaFile = scn.nextLine();
 
-                MIn = new Matriks(namaFile);
+                MIn = new Matriks();
+
+                MIn.bacaFile(namaFile);
             }else{
                 MIn = new Matriks();
+
+                MIn.baca();
             }
 
             System.out.println("Matriks yang diinput : ");
