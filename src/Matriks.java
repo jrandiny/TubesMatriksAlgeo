@@ -122,4 +122,78 @@ public class Matriks {
         }
         return row;
     }
+    
+    public static void Gauss(float[][] M, float[] T) {
+		int i, j, k, p, brs, kol, x;
+		int max;
+		float temp;
+
+		brs = M.length; kol = M[0].length;
+		if (brs>kol) {
+                x=kol;}
+        else {
+                x=brs;};
+
+		p=0;
+		for (k=0; k<x; k++) {
+			//Mencari baris yg memuat elemen max
+			max = k;
+			for (i=k; i<brs; i++) {
+				if (Math.abs(M[i][k])>Math.abs(M[max][k])) {
+					max = i;
+				}
+			}
+
+			//Menukar baris yang ditunjuk dengan baris yg memuat elemen max
+			TukarRow(k,max);
+			temp = T[k];
+			T[k] = T[max];
+			T[max] = temp;
+
+            //Mencari kolom dalam baris k yang elemennya bukan 0
+			p = k;
+			while (p<kol && M[k][p]==0) {
+				p++;
+			}
+			if (p<kol) {          //jika l<n maka paling tidak elemen di baris k dan kolom terakhir adalah bukan 0
+				//Membuat elemen di baris k kolom awal menjadi 1
+				temp = M[k][l];
+				if (temp!=0) {
+					T[k] = T[k] /  temp;
+					for (j=k; j<kol; j++) {
+						M[k][j] = M[k][j] / temp;
+					}
+				}
+				//Membuat elemen-elemen di bawah elemen 1 menjadi 0
+				for (i = k+1; i < brs; i++) {
+					temp = M[i][p] / M[k][p];
+					T[i] = T[i] - (temp * T[k]);
+					Tambah(i,k,-temp);
+					}
+				}
+			}
+		}
+    
+    public static void GaussJordan(float[][] M, float[] T) {
+		int i, j, k, p, brs, kol, x;
+		int max;
+		float temp;
+
+		Gauss(M,T);
+		for (k=0; k<kol; k++) {
+			i=brs-1;
+			while (i>=0 && M[i][k]!=1) {
+				i--;
+			}
+
+			if (i!=0 && i>=0) {
+				for (p=0; p<i; p++) {
+					temp = M[p][k] / M[i][k];
+					T[p] = T[p] - (temp * T[i]);
+					Tambah(p,i,-temp);
+				}
+			}
+		} 
+		}
+
 }
