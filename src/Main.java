@@ -71,11 +71,22 @@ public class Main {
 
                 MIn = new Matriks();
 
-                MIn.bacaFile(namaFile);
+                if(opsi==1){
+                    MIn.bacaFileSPL(namaFile);
+                }else if(opsi==2){
+                    MIn.bacaFileInterpolasi(namaFile);
+                }
+
+
             }else{
                 MIn = new Matriks();
 
-                MIn.baca();
+                if(opsi==1){
+                    MIn.bacaSPL();
+                }else if(opsi==2){
+                    MIn.bacaInterPolasi();
+                }
+
             }
 
             System.out.println("Matriks yang diinput : ");

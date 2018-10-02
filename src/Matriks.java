@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,22 +26,66 @@ public class Matriks {
         isi = new double[NMAX][NMAX];
     }
 
-    public void bacaFile(String namaFile){
+    public void bacaFileInterpolasi(String namaFile){
         File file = new File(namaFile);
+
+        int titik = 0;
+        ArrayList<Double[]> temp = new ArrayList<Double[]>();
+
+        try {
+            Scanner scn = new Scanner(file);
+
+            while (scn.hasNextLine()){
+                String line = scn.nextLine();
+                temp.add(new Double[2]);
+
+                Scanner linescn = new Scanner(line);
+
+                temp.get(titik)[0] = linescn.nextDouble();
+                temp.get(titik)[1] = linescn.nextDouble();
+
+                titik++;
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if(titik != 0){
+            isi = new double[titik][titik+1];
+            NKol = titik + 1;
+            NBrs = titik;
+
+            for (int i = 0;i<temp.size();i++){
+                for(int kolom = 0;kolom<titik;kolom++){
+                    isi[i][kolom] = Math.pow(temp.get(i)[0],kolom);
+                }
+                isi[i][titik] = temp.get(i)[1];
+            }
+        }
+    }
+
+    public void bacaFileSPL(String namaFile){
         int row = 0;
         ArrayList<ArrayList<Double>> temp = new ArrayList<ArrayList<Double>>();
 
         try {
-            Scanner scn = new Scanner(file).useDelimiter(" ");
+            File file = new File(namaFile);
+
+            Scanner scn = new Scanner(file);
 
             while(scn.hasNextLine()){
-                temp.add(new ArrayList<Double>());
-                while(scn.hasNextDouble()){
-                    temp.get(row).add(scn.nextDouble());
-                }
-                row++;
-                scn.nextLine();
+                String line = scn.nextLine();
 
+                temp.add(new ArrayList<Double>());
+
+                Scanner linescn = new Scanner(line);
+
+                while(linescn.hasNextDouble()){
+                    temp.get(row).add(linescn.nextDouble());
+                }
+
+                row++;
             }
 
         } catch (FileNotFoundException e) {
@@ -66,15 +111,15 @@ public class Matriks {
     }
 
     public void print(){
-        for (int i = 0; i < isi.length; i++) {
-            for (int j = 0; j < isi[i].length; j++) {
+        for (int i = 0; i < NBrs; i++) {
+            for (int j = 0; j < NKol; j++) {
                 System.out.print(this.get(i,j)+" ");
             }
             System.out.println();
         }
     }
 
-    public void baca(){
+    public void bacaSPL(){
         Scanner scn = new Scanner(System.in);
         double content;
 
@@ -88,6 +133,31 @@ public class Matriks {
                 content = scn.nextDouble();
                 isi[i][j] = content;
             }
+        }
+    }
+
+    public void bacaInterPolasi(){
+        Scanner scn = new Scanner(System.in);
+        double content;
+
+        int jumlah = scn.nextInt();
+        double[][] temp = new double[jumlah][2];
+
+        for (int i = 0; i < jumlah; i++) {
+            temp[i][0] = scn.nextDouble();
+            temp[i][1] = scn.nextDouble();
+        }
+
+        NBrs = jumlah;
+        NKol = jumlah +1;
+
+        isi = new double[NBrs][NKol];
+
+        for (int i = 0;i<jumlah;i++){
+            for(int kolom = 0;kolom<jumlah;kolom++){
+                isi[i][kolom] = Math.pow(temp[i][0],kolom);
+            }
+            isi[i][jumlah] = temp[i][1];
         }
     }
 
@@ -162,77 +232,77 @@ public class Matriks {
         return row;
     }
     
-    public void Gauss(float[][] M, float[] T) {
-		int i, j, k, p, brs, kol, x;
-		int max;
-		float temp;
-
-		brs = M.length; kol = M[0].length;
-		if (brs>kol) {
-                x=kol;}
-        else {
-                x=brs;};
-
-		p=0;
-		for (k=0; k<x; k++) {
-			//Mencari baris yg memuat elemen max
-			max = k;
-			for (i=k; i<brs; i++) {
-				if (Math.abs(M[i][k])>Math.abs(M[max][k])) {
-					max = i;
-				}
-			}
-
-			//Menukar baris yang ditunjuk dengan baris yg memuat elemen max
-			TukarRow(k,max);
-			temp = T[k];
-			T[k] = T[max];
-			T[max] = temp;
-
-            //Mencari kolom dalam baris k yang elemennya bukan 0
-			p = k;
-			while (p<kol && M[k][p]==0) {
-				p++;
-			}
-			if (p<kol) {          //jika l<n maka paling tidak elemen di baris k dan kolom terakhir adalah bukan 0
-				//Membuat elemen di baris k kolom awal menjadi 1
-				temp = M[k][1];
-				if (temp!=0) {
-					T[k] = T[k] /  temp;
-					for (j=k; j<kol; j++) {
-						M[k][j] = M[k][j] / temp;
-					}
-				}
-				//Membuat elemen-elemen di bawah elemen 1 menjadi 0
-				for (i = k+1; i < brs; i++) {
-					temp = M[i][p] / M[k][p];
-					T[i] = T[i] - (temp * T[k]);
-					Tambah(i,k,-temp);
-					}
-				}
-			}
-		}
+//    public void Gauss(float[][] M, float[] T) {
+//		int i, j, k, p, brs, kol, x;
+//		int max;
+//		float temp;
+//
+//		brs = M.length; kol = M[0].length;
+//		if (brs>kol) {
+//                x=kol;}
+//        else {
+//                x=brs;};
+//
+//		p=0;
+//		for (k=0; k<x; k++) {
+//			//Mencari baris yg memuat elemen max
+//			max = k;
+//			for (i=k; i<brs; i++) {
+//				if (Math.abs(M[i][k])>Math.abs(M[max][k])) {
+//					max = i;
+//				}
+//			}
+//
+//			//Menukar baris yang ditunjuk dengan baris yg memuat elemen max
+//			TukarRow(k,max);
+//			temp = T[k];
+//			T[k] = T[max];
+//			T[max] = temp;
+//
+//            //Mencari kolom dalam baris k yang elemennya bukan 0
+//			p = k;
+//			while (p<kol && M[k][p]==0) {
+//				p++;
+//			}
+//			if (p<kol) {          //jika l<n maka paling tidak elemen di baris k dan kolom terakhir adalah bukan 0
+//				//Membuat elemen di baris k kolom awal menjadi 1
+//				temp = M[k][1];
+//				if (temp!=0) {
+//					T[k] = T[k] /  temp;
+//					for (j=k; j<kol; j++) {
+//						M[k][j] = M[k][j] / temp;
+//					}
+//				}
+//				//Membuat elemen-elemen di bawah elemen 1 menjadi 0
+//				for (i = k+1; i < brs; i++) {
+//					temp = M[i][p] / M[k][p];
+//					T[i] = T[i] - (temp * T[k]);
+//					Tambah(i,k,-temp);
+//					}
+//				}
+//			}
+//		}
     
-    public void GaussJordan(float[][] M, float[] T) {
-		int i, j, k, p, brs, kol, x;
-		int max;
-		float temp;
-
-		Gauss(M,T);
-		for (k=0; k<kol; k++) {
-			i=brs-1;
-			while (i>=0 && M[i][k]!=1) {
-				i--;
-			}
-
-			if (i!=0 && i>=0) {
-				for (p=0; p<i; p++) {
-					temp = M[p][k] / M[i][k];
-					T[p] = T[p] - (temp * T[i]);
-					Tambah(p,i,-temp);
-				}
-			}
-		} 
-		}
+//    public void GaussJordan(float[][] M, float[] T) {
+//		int i, j, k, p, brs, kol, x;
+//		int max;
+//		float temp;
+//
+//		Gauss(M,T);
+//		for (k=0; k<kol; k++) {
+//			i=brs-1;
+//			while (i>=0 && M[i][k]!=1) {
+//				i--;
+//			}
+//
+//			if (i!=0 && i>=0) {
+//				for (p=0; p<i; p++) {
+//					temp = M[p][k] / M[i][k];
+//					T[p] = T[p] - (temp * T[i]);
+//					Tambah(p,i,-temp);
+//				}
+//			}
+//		}
+//		}
 
 }
