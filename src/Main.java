@@ -54,45 +54,53 @@ public class Main {
         System.out.println("TUBES ALGEO");
         Matriks MIn;
 
-        int opsi = promptUtama();
+//        int opsi = promptUtama();
+//
+//        if(opsi==3){
+//            System.exit(0);
+//        }else{
+//            int metode = promptOpsi();
+//            int input = promptInput();
+//
+//            if(input==1){
+//                System.out.print("Nama file : ");
+//
+//                Scanner scn = new Scanner(System.in);
+//
+//                String namaFile = scn.nextLine();
+//
+//                MIn = new Matriks();
+//
+//                if(opsi==1){
+//                    MIn.bacaFileSPL(namaFile);
+//                }else if(opsi==2){
+//                    MIn.bacaFileInterpolasi(namaFile);
+//                }
+//
+//
+//            }else{
+//                MIn = new Matriks();
+//
+//                if(opsi==1){
+//                    MIn.bacaSPL();
+//                }else if(opsi==2){
+//                    MIn.bacaInterPolasi();
+//                }
+//
+//            }
 
-        if(opsi==3){
-            System.exit(0);
-        }else{
-            int metode = promptOpsi();
-            int input = promptInput();
-
-            if(input==1){
-                System.out.print("Nama file : ");
-
-                Scanner scn = new Scanner(System.in);
-
-                String namaFile = scn.nextLine();
-
-                MIn = new Matriks();
-
-                if(opsi==1){
-                    MIn.bacaFileSPL(namaFile);
-                }else if(opsi==2){
-                    MIn.bacaFileInterpolasi(namaFile);
-                }
-
-
-            }else{
-                MIn = new Matriks();
-
-                if(opsi==1){
-                    MIn.bacaSPL();
-                }else if(opsi==2){
-                    MIn.bacaInterPolasi();
-                }
-
-            }
+        MIn = new Matriks();
+            MIn.bacaSPL();
 
             System.out.println("Matriks yang diinput : ");
             MIn.print();
+
+            MIn.Gauss();
+
+            System.out.println("HASIL GAUSS : ");
+            MIn.print();
             
-        }
+//        }
 
     }
 }

@@ -185,14 +185,14 @@ public class Matriks {
         this.Tambah(row,rowLain,1);
     }
 
-    private void Tambah(int row, int rowLain, int kali){
+    private void Tambah(int rowDitambah, int rowPenambah, double kali){
         //nambahin row 1 dgn row lainnya
-        for (int j = 0; j < isi[row].length; j++) {
-            isi[row][j] = isi[row][j] + kali*isi[rowLain][j];
+        for (int j = 0; j < isi[rowDitambah].length; j++) {
+            isi[rowDitambah][j] = isi[rowDitambah][j] + kali*isi[rowPenambah][j];
         }
     }
 
-    private void Kali(int row, int X){
+    private void Kali(int row, double X){
         //kali isi dari row dgn X
         for (int j = 0; j < isi[row].length; j++) {
             isi[row][j] = isi[row][j] * X;
@@ -231,7 +231,74 @@ public class Matriks {
         }
         return row;
     }
-    
+
+    public boolean NolSebaris(int row) {
+        int j = 0;
+        int i = row;
+        boolean allNol = true;
+
+        while (j < getCol()) {
+            if (get(i,j) != 0) {
+                allNol = false;
+            }
+            j++;
+        }
+
+        return allNol;
+    }
+
+    public void Gauss(){
+        double tempLead;
+        int i = 0;
+        while(i<getBrs()){
+            System.out.println();
+            System.out.println("START ROW BARU "+i);
+            tempLead = get(i,i);
+
+            int k = i;
+            int l = i;
+            System.out.println("CEK 0");
+            if(NolSebaris(i)){
+
+            }else{
+                while (get(k,l)==0){
+                    System.out.println("0 detected, cek bukan 0 di "+k+","+l);
+                    k++;
+                    if(k>getBrs()){
+                        k = i;
+                        l++;
+                        if(l>getCol()-2){
+                            System.out.println("ERRORRRRRR");
+                        }
+                    }
+                }
+
+                if(k != i){
+                    System.out.println("TUKAR CALLED "+i+" dengan "+k);
+                    TukarRow(i,k);
+                    print();
+                }
+
+                tempLead = get(i,i);
+
+                Kali(i,(1/tempLead));
+
+                System.out.println("MATRIKS SUDAH DIKALI");
+                print();
+
+                int j = i+1;
+                while (j<getBrs()){
+                    Tambah(j,i,-get(j,i));
+                    j++;
+                }
+            }
+
+
+            i++;
+
+        }
+    }
+
 //    public void Gauss(float[][] M, float[] T) {
 //		int i, j, k, p, brs, kol, x;
 //		int max;
