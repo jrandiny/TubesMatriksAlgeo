@@ -5,14 +5,23 @@ import java.util.Scanner;
 
 public class Matriks {
     private double[][] isi;
+    private int NKol;
+    private int NBrs;
+    private boolean solved;
     private final int NMAX = 100;
     private final int IDXUNDEF = -99;
 
     public Matriks(int row, int col){
+        NBrs = 0;
+        NKol = 0;
+        solved = false;
         isi = new double[row][col];
     }
 
     public Matriks(){
+        solved = false;
+        NBrs = 0;
+        NKol = 0;
         isi = new double[NMAX][NMAX];
     }
 
@@ -41,7 +50,10 @@ public class Matriks {
 
 
         if(row != 0){
-            isi = new double[temp.size()][temp.get(0).size()];
+            NBrs = row;
+            NKol = temp.get(0).size();
+
+            isi = new double[NBrs][NKol];
 
             for (int i = 0; i < temp.size(); i++) {
                 for (int j = 0; j < temp.get(0).size(); j++) {
@@ -50,6 +62,7 @@ public class Matriks {
             }
 
         }
+
     }
 
     public void print(){
@@ -65,17 +78,25 @@ public class Matriks {
         Scanner scn = new Scanner(System.in);
         double content;
 
-        int row = scn.nextInt();
-        int col = scn.nextInt();
+        NBrs = scn.nextInt();
+        NKol = scn.nextInt();
 
-        isi = new double[row][col];
+        isi = new double[NBrs][NKol];
 
         for (int i = 0; i < isi.length; i++) {
             for (int j = 0; j < isi[i].length; j++) {
                 content = scn.nextDouble();
-                this.set(i,j,content);
+                isi[i][j] = content;
             }
         }
+    }
+
+    public int getBrs(){
+        return NBrs;
+    }
+
+    public int getCol(){
+        return NKol;
     }
 
     public double get(int row, int col){
@@ -84,6 +105,10 @@ public class Matriks {
 
     public void set(int row, int col, double isi){
         this.isi[row][col] = isi;
+    }
+
+    public boolean isSolved(){
+        return this.solved;
     }
 
     public void Tambah(int row,int rowLain){
@@ -137,7 +162,7 @@ public class Matriks {
         return row;
     }
     
-    public static void Gauss(float[][] M, float[] T) {
+    public void Gauss(float[][] M, float[] T) {
 		int i, j, k, p, brs, kol, x;
 		int max;
 		float temp;
@@ -171,7 +196,7 @@ public class Matriks {
 			}
 			if (p<kol) {          //jika l<n maka paling tidak elemen di baris k dan kolom terakhir adalah bukan 0
 				//Membuat elemen di baris k kolom awal menjadi 1
-				temp = M[k][l];
+				temp = M[k][1];
 				if (temp!=0) {
 					T[k] = T[k] /  temp;
 					for (j=k; j<kol; j++) {
@@ -188,7 +213,7 @@ public class Matriks {
 			}
 		}
     
-    public static void GaussJordan(float[][] M, float[] T) {
+    public void GaussJordan(float[][] M, float[] T) {
 		int i, j, k, p, brs, kol, x;
 		int max;
 		float temp;
