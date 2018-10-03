@@ -99,7 +99,13 @@ public class Main {
 
             System.out.println("HASIL GAUSS : ");
             MIn.print();
-            
+
+            SPL solver = new SPL();
+            solver.setM(MIn);
+
+            System.out.println("HASUL X");
+
+            solver.penyelesaianSimetris();
 //        }
 
     }
