@@ -16,6 +16,10 @@ public class SPL {
         return allNol;
     }
 
+    public void setM(Matriks MIn) {
+        M = MIn;
+    }
+
     public boolean adaHasil() {
         int j = M.getCol()+1;
         int i = M.getBrs();
@@ -37,28 +41,34 @@ public class SPL {
         return M.getCol() - M.getBrs();
     }
 
-    public void penyelesaianSimetris(double[] X) {
-        int i = M.getBrs();
-        int j;
-        int k = M.getCol()-1;
+    public void penyelesaianSimetris() {
+        int barisMatriks = M.getBrs() - 1;
+        int kolomMatriks;
+        int nomorArray = M.getCol()- 2;
 
-        while (i != 0) {
-            j = M.getCol()-1;
+        double[] X = new double[10];
 
-            if (i == M.getBrs()) {
-                X[k] = M.get(i,j+1);
+        while (barisMatriks != -1) {
+            kolomMatriks = M.getCol()-2;
+
+            if (barisMatriks == M.getBrs()-1) {
+                X[nomorArray] = M.get(barisMatriks,kolomMatriks+1);
             }
             else {
-                X[k] = 0;
-                while (j != i) {
-                    X[k] = X[k] - (M.get(i,j) * X[j]);
-                    j--;
+                X[nomorArray] = 0;
+                while (kolomMatriks != barisMatriks) {
+                    X[nomorArray] = X[nomorArray] - (M.get(barisMatriks,kolomMatriks) * X[kolomMatriks]);
+                    kolomMatriks--;
                 }
-                X[k] = X[k] + M.get(i,j+1);
+                X[nomorArray] = X[nomorArray] + M.get(barisMatriks,M.getCol()-1);
             }
 
-            i--;
-            k--;
+            barisMatriks--;
+            nomorArray--;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            System.out.println(X[i]);
         }
     }
 
