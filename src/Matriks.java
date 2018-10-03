@@ -249,52 +249,59 @@ public class Matriks {
 
     public void Gauss(){
         double tempLead;
-        int i = 0;
-        while(i<getBrs()){
+        int baris = 0;
+        int kolom = baris;
+        while(baris<getBrs()&&kolom<getCol()){
             System.out.println();
-            System.out.println("START ROW BARU "+i);
-            tempLead = get(i,i);
+            System.out.println("START ROW BARU "+baris);
 
-            int k = i;
-            int l = i;
+            int k = baris;
+            int l = kolom;
             System.out.println("CEK 0");
-            if(NolSebaris(i)){
+            if(NolSebaris(baris)){
 
             }else{
                 while (get(k,l)==0){
                     System.out.println("0 detected, cek bukan 0 di "+k+","+l);
                     k++;
-                    if(k>getBrs()){
-                        k = i;
+                    System.out.println("K++ -> "+k+"/"+getBrs());
+                    if(k>=getBrs()){
+                        k = baris;
                         l++;
+                        kolom++;
+                        System.out.println("Increment kolom ke "+l);
                         if(l>getCol()-2){
                             System.out.println("ERRORRRRRR");
                         }
                     }
                 }
 
-                if(k != i){
-                    System.out.println("TUKAR CALLED "+i+" dengan "+k);
-                    TukarRow(i,k);
+                if(k != baris){
+                    System.out.println("TUKAR CALLED "+baris+" dengan "+k);
+                    TukarRow(baris,k);
                     print();
                 }
 
-                tempLead = get(i,i);
+                tempLead = get(baris,kolom);
 
-                Kali(i,(1/tempLead));
+                Kali(baris,(1/tempLead));
 
                 System.out.println("MATRIKS SUDAH DIKALI");
                 print();
 
-                int j = i+1;
+                int j = baris+1;
                 while (j<getBrs()){
-                    Tambah(j,i,-get(j,i));
+                    Tambah(j,baris,-get(j,kolom));
                     j++;
                 }
+
+                System.out.println("HASIL PROSES");
+                print();
             }
 
 
-            i++;
+            baris++;
+            kolom++;
 
         }
     }
