@@ -26,6 +26,10 @@ public class Matriks {
         isi = new double[NMAX][NMAX];
     }
 
+    /**
+     * Membaca input interpolasi dari file
+     * @param namaFile Nama file interpolasi
+     */
     public void bacaFileInterpolasi(String namaFile){
         File file = new File(namaFile);
 
@@ -65,6 +69,10 @@ public class Matriks {
         }
     }
 
+    /**
+     * Membaca input file SPL
+     * @param namaFile Nama file matriks SPL
+     */
     public void bacaFileSPL(String namaFile){
         int row = 0;
         ArrayList<ArrayList<Double>> temp = new ArrayList<ArrayList<Double>>();
@@ -110,6 +118,9 @@ public class Matriks {
 
     }
 
+    /**
+     * Mencetak isi matriks ke layar
+     */
     public void print(){
         for (int i = 0; i < NBrs; i++) {
             for (int j = 0; j < NKol; j++) {
@@ -119,6 +130,9 @@ public class Matriks {
         }
     }
 
+    /**
+     * Membaca SPL dari terminal
+     */
     public void bacaSPL(){
         Scanner scn = new Scanner(System.in);
         double content;
@@ -136,6 +150,9 @@ public class Matriks {
         }
     }
 
+    /**
+     * Membaca input interpolasi dari terminal
+     */
     public void bacaInterPolasi(){
         Scanner scn = new Scanner(System.in);
         double content;
@@ -161,30 +178,65 @@ public class Matriks {
         }
     }
 
+    /**
+     * Mengembalikan jumlah baris
+     * @return jumlah baris
+     */
     public int getBrs(){
         return NBrs;
     }
 
+    /**
+     * Mengembalikan jumlah kolom (termasuk augmented)
+     * @return jumlah kolom
+     */
     public int getCol(){
         return NKol;
     }
 
+    /**
+     * Mengembalikan isi matriks di posisi tertentu
+     * @param row baris
+     * @param col kolom
+     * @return isi matriks
+     */
     public double get(int row, int col){
         return isi[row][col];
     }
 
+    /**
+     * Mengisi matriks di posisi tertentu
+     * @param row baris
+     * @param col kolom
+     * @param isi data yang ingin dimasukkan
+     */
     public void set(int row, int col, double isi){
         this.isi[row][col] = isi;
     }
 
+    /**
+     * Apakah matriks sudah digauss atau gauss-jordan
+     * @return solved
+     */
     public boolean isSolved(){
         return this.solved;
     }
 
+    /**
+     * Menambah baris matriks ke baris lain
+     * @param row baris yang ditambah
+     * @param rowLain baris yang digunakan untuk menambah
+     */
     public void Tambah(int row,int rowLain){
         this.Tambah(row,rowLain,1);
     }
 
+    /**
+     * Menambah baris matriks ke baris lain dengan dikali juga
+     * @param rowDitambah baris yang ditambah
+     * @param rowPenambah baris yang digunakan untuk menambah
+     * @param kali faktor pengali
+     */
     private void Tambah(int rowDitambah, int rowPenambah, double kali){
         //nambahin row 1 dgn row lainnya
         for (int j = 0; j < isi[rowDitambah].length; j++) {
@@ -192,6 +244,11 @@ public class Matriks {
         }
     }
 
+    /**
+     * Mengali baris dengan konstanta tertentu
+     * @param row baris yang ingin dikali
+     * @param X faktor pengali
+     */
     private void Kali(int row, double X){
         //kali isi dari row dgn X
         for (int j = 0; j < isi[row].length; j++) {
@@ -199,6 +256,11 @@ public class Matriks {
         }
     }
 
+    /**
+     * Menukar baris
+     * @param row1 baris yang ingin ditukar
+     * @param row2 baris yang ingin ditukar
+     */
     private void TukarRow(int row1, int row2){
         //nuker isi row1 dengan isi row2
         double[][] temp = new double[isi.length][isi[1].length];
@@ -210,6 +272,10 @@ public class Matriks {
         }
     }
 
+    /**
+     * Cari indeks baris dengan nol paling banyak
+     * @return indeks
+     */
     private int nolBanyak(){
         //cari baris/row yang 0 nya paling banyak
         int max = -999;
@@ -232,6 +298,11 @@ public class Matriks {
         return row;
     }
 
+    /**
+     * Mengembalikan true jika 1 baris nol semua
+     * @param row baris yang ingin dicek
+     * @return true jika nol semua
+     */
     public boolean NolSebaris(int row) {
         int j = 0;
         int i = row;
@@ -247,6 +318,9 @@ public class Matriks {
         return allNol;
     }
 
+    /**
+     * Megubah matriks menjadi echelon form
+     */
     public void Gauss(){
         double tempLead;
         int baris = 0;
