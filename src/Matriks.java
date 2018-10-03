@@ -378,79 +378,89 @@ public class Matriks {
             kolom++;
 
         }
+        
+        public class GaussJordanEl()
+
+{
+
+  public  void GaussJordanEl()
+  {
+    int i, j, k, l, m, n, o, p, q, row, col;
+    int max, div;
+    
+    row = getBrs();
+    col = getCol();
+    if (row > col){
+      i = row;
+    }
+    else{
+        i = col;
+    }
+    for (j = 0; j < i; j++){
+      max = j;
+      for (k = j + 1; k < i; k++){
+        if (Math.abs(isi[k][j]) > Math.abs(isi[max][j])){
+            max = k;
+        }
+      }
+      double[] temp1;
+      temp1 = M[j];
+      M[j] = M[max];
+      M[max] = temp1;
+      double temp2;
+      temp2 = N[j];
+      N[j] = N[max];
+      N[max] = temp2;
+
+      //Agar nilai pivot menjadi 1
+      l = j;
+      while ((l < col) && (isi[j][l] == 0)){
+        l++;
+      }
+      if (l < col){
+          div = isi[j][l];
+          for (m = j; m < col; m++){
+                isi[j][m] = isi[j][m] / div;
+          }
+         N[j] = N[j] / div;
+      }
+
+      //Agar elemen-elemen di bawah pivot bernilai 0
+      for (n = j + 1; n < row; n++){
+            div = isi[n][l] / isi[j][l];
+            for (o = 0; o < col; o++){
+                isi[n][o] = isi[n][o] - (div * isi[j][o]);
+            }
+            N[n] = N[n] - (div * N[j]);
+
+      }
+
     }
 
-//    public void Gauss(float[][] M, float[] T) {
-//		int i, j, k, p, brs, kol, x;
-//		int max;
-//		float temp;
-//
-//		brs = M.length; kol = M[0].length;
-//		if (brs>kol) {
-//                x=kol;}
-//        else {
-//                x=brs;};
-//
-//		p=0;
-//		for (k=0; k<x; k++) {
-//			//Mencari baris yg memuat elemen max
-//			max = k;
-//			for (i=k; i<brs; i++) {
-//				if (Math.abs(M[i][k])>Math.abs(M[max][k])) {
-//					max = i;
-//				}
-//			}
-//
-//			//Menukar baris yang ditunjuk dengan baris yg memuat elemen max
-//			TukarRow(k,max);
-//			temp = T[k];
-//			T[k] = T[max];
-//			T[max] = temp;
-//
-//            //Mencari kolom dalam baris k yang elemennya bukan 0
-//			p = k;
-//			while (p<kol && M[k][p]==0) {
-//				p++;
-//			}
-//			if (p<kol) {          //jika l<n maka paling tidak elemen di baris k dan kolom terakhir adalah bukan 0
-//				//Membuat elemen di baris k kolom awal menjadi 1
-//				temp = M[k][1];
-//				if (temp!=0) {
-//					T[k] = T[k] /  temp;
-//					for (j=k; j<kol; j++) {
-//						M[k][j] = M[k][j] / temp;
-//					}
-//				}
-//				//Membuat elemen-elemen di bawah elemen 1 menjadi 0
-//				for (i = k+1; i < brs; i++) {
-//					temp = M[i][p] / M[k][p];
-//					T[i] = T[i] - (temp * T[k]);
-//					Tambah(i,k,-temp);
-//					}
-//				}
-//			}
-//		}
-    
-//    public void GaussJordan(float[][] M, float[] T) {
-//		int i, j, k, p, brs, kol, x;
-//		int max;
-//		float temp;
-//
-//		Gauss(M,T);
-//		for (k=0; k<kol; k++) {
-//			i=brs-1;
-//			while (i>=0 && M[i][k]!=1) {
-//				i--;
-//			}
-//
-//			if (i!=0 && i>=0) {
-//				for (p=0; p<i; p++) {
-//					temp = M[p][k] / M[i][k];
-//					T[p] = T[p] - (temp * T[i]);
-//					Tambah(p,i,-temp);
-//				}
-//			}
-//		}
-//		}
+    boolean stop = false;
+    for (p = 0; p < col; p++){
+        q = row - 1;
+        while ((isi[q][p] != 1) && (q >= 0)){
+            if ((p == col - 1) && (isi[q][p] == 0)){
+                stop = true;
+                break;
+            }
+            q--;
+        }
+      if (stop) break;
+      double temp3;
+      if (q != 0){
+          for (i = 0; i < q; i++){
+              temp3 = isi[i][p] / isi[q][p];
+              for (j = 0; j < col; j++){
+                  isi[i][j] = isi[i][j] - (temp3 * isi[q][j]);
+              }
+              N[i] = N[i] - (temp3 * N[q]);
+          }
+      }
+    }
+  }
+        }
+    }
 
 }
