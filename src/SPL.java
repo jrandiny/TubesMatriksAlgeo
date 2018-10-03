@@ -1,12 +1,10 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class SPL {
     private Matriks M;
 
-    public boolean NolBawah() {
+    private boolean NolBawah() {
         int j = 0;
         int i = M.getBrs();
         boolean allNol = true;
@@ -31,11 +29,7 @@ public class SPL {
         boolean ada;
 
         if (NolBawah()) {
-            if (M.get(i,j) == 0) {
-                return true;
-            }
-            else
-                return false;
+            return M.get(i, j) == 0;
         }
         else
             return true;
@@ -87,11 +81,9 @@ public class SPL {
         //Cek unknown yang tidak diketahui
         for (int i = 0; i < M.getBrs(); i++) {
             int j = 0;
-            boolean ketemu;
             int jumlahNonZero;
             int lokasiLeading;
 
-            ketemu = false;
             jumlahNonZero = 0;
             lokasiLeading = 0;
 
@@ -174,7 +166,7 @@ public class SPL {
             returnToken.type = 2;
             returnToken.unknownKe = unknownKe;
 
-            ArrayList<Token> arrToken = new ArrayList<Token>();
+            ArrayList<Token> arrToken = new ArrayList<>();
 
             Token baseToken = new Token();
             baseToken.type = 1;
@@ -266,30 +258,4 @@ public class SPL {
             return returnToken;
         }
     }
-
-//    public void parametrik(char[][] hasil) {
-//        char variabel = 'a';
-//        double[] X;
-//        char[] Y;
-//        int i = M.getBrs();
-//        int j = M.getCol();
-//        int k = M.getCol();
-//
-//        while (j != i) {
-//            Y[j] = X;
-//            X++;
-//            j--;
-//        }
-//    }
-//
-//    public void matriksTinggi(Matriks M) {
-//        int i = M.getBrs();
-//        int j = M.getCol();
-//
-//        while (i != j) {
-//            M.getBrs() = M.getBrs()-1;
-//            i--;
-//        }
-//    }
-
 }
