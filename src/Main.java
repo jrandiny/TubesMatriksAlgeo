@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -13,7 +14,14 @@ public class Main {
         int menu = -99;
         while((menu != 1)&&(menu!=2)&&(menu!=3)){
             System.out.print("Opsi : ");
-            menu = scan.nextInt();
+
+            try {
+                menu = scan.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Error input");
+                scan.next();
+            }
+
         }
 
         return menu;
@@ -30,7 +38,12 @@ public class Main {
         int opt = -99;
         while((opt != 1)&&(opt!=2)){
             System.out.print("Opsi : ");
-            opt = scan.nextInt();
+            try {
+                opt = scan.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Error input");
+                scan.next();
+            }
         }
 
         return opt;
@@ -42,7 +55,12 @@ public class Main {
         int opt = -99;
         while((opt != 0)&&(opt!=1)){
             System.out.print("Opsi : ");
-            opt = scan.nextInt();
+            try {
+                opt = scan.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Error input");
+                scan.next();
+            }
         }
 
         return opt;
@@ -58,7 +76,12 @@ public class Main {
         int input = -99;
         while((input != 1)&&(input!=2)){
             System.out.print("Opsi : ");
-            input = scan.nextInt();
+            try {
+                input = scan.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Error input");
+                scan.next();
+            }
         }
 
         return input;
