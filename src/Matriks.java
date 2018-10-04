@@ -200,6 +200,35 @@ public abstract class Matriks {
         }
     }
 
+    public void GaussJordan() {
+        Gauss(); //matriksnya di gauss dulu
+        int i = getBrs()-2; //sebenernya ini ga penting, tapi uda terlanjur bikin
+        int j = getCol()-2; //kolom matriks
+        int baris; //baris yang bakal dikurangin
+        int barisKurang; //baris yang jadi pengurang (nilai M[barisKurang][j] harus 1
+
+        while (j >= 0) { //stop saat j < 0
+
+            barisKurang = getBrs() - 1; //baris yang digunakan untuk pengurang
+
+            while ((get(barisKurang, j) != 1) && (barisKurang > 1)) { //stop kalau ketemu yang nilainya 1, atau barisKurang mentok
+                barisKurang--; //cari barisKurang yang nilai M[bK][j] = 1 buat jadi pengurang
+            }
+
+            if (get(barisKurang, j) == 1) { //kalau M[barisKurang][j] nilainya 1
+                baris = barisKurang - 1; //baris yang bakal dikurang
+                while (baris >= 0) {
+                    if (get(baris, j) != 0) { //cari baris yang bakal dikurang, yang masih belum nol
+                        Tambah(baris, barisKurang, -(get(baris, j))); //M[baris][j] dijadiin nol
+                    }
+                    baris--;
+                }
+            }
+
+            j--; //ganti kolom
+        }
+    }
+
 
 //  public  void GaussJordanEl()
 //  {
