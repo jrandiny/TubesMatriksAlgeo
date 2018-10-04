@@ -22,15 +22,19 @@ public abstract class Solver {
         i = 0;
         while(konsisten && i<M.getBrs()){
             sebarisNol = true;
-            for (j = 0; j < M.getCol(); j++) {
+
+            j = 0;
+
+            while ((j<jumlahUnknown) && sebarisNol){
                 if(M.get(i,j)!=0){
                     sebarisNol =false;
                 }
+                j++;
+            }
 
-                if((j ==  M.getCol()-1)&&sebarisNol){
-                    //semua nol kecuali kolom terakhir
-                    konsisten = false;
-                }
+            if(sebarisNol && (M.get(i,j)!=0)){
+                //semua nol kecuali kolom terakhir
+                konsisten = false;
             }
             i++;
         }
@@ -78,44 +82,17 @@ public abstract class Solver {
                 if(jumlahNonZero == 1){
                     // Jika angka biasa, set hasil angka tersebut langsung
                     hasil[lokasiLeading] = new Token(1,M.get(i,jumlahUnknown));
-                }else{
+                }else if(jumlahNonZero > 1){
                     // Jika parameter
                     rowMatriks[lokasiLeading] = i;
                     hasil[lokasiLeading] = new Token(2,M.get(i,jumlahUnknown),lokasiLeading);
                 }
 
             }
-
-            parametrik();
-
         }
     }
 
-    public void parametrik(){
-        //cetakkk
-        for (int i = jumlahUnknown-1; i >=0; i--) {
-            System.out.print("X"+i+" = ");
-            if(hasil[i].type==0){
-                System.out.print("arbitrary");
-            }else if(hasil[i].type==1){
-                System.out.print(Double.toString(hasil[i].angka));
-            }else{
-//                System.out.println("TBD");
-                Token resultToken = getParametrikText(i,M);
-                for (Token isi:resultToken.daftarToken) {
-                    if(isi.type==1){
-                        System.out.print(" + "+isi.angka+" ");
-                    }else if(isi.type==0){
-                        System.out.print(" + "+isi.angka +"X"+isi.unknownKe+" ");
-                    }
-                }
-            }
-            System.out.println();
-        }
-
-    }
-
-    private Token getParametrikText(int unknownKe, Matriks MIn){
+    protected Token getParametrik(int unknownKe){
         Output.logln("getParametrixText");
         Output.logln("Operasi di unknown ke "+unknownKe);
 
@@ -143,19 +120,19 @@ public abstract class Solver {
 
             for (int i = unknownKe+1; i < jumlahUnknown; i++) {
                 Output.logln("Cek ke kanan pada pos "+i);
-                Token anakToken = getParametrikText(i,MIn);
+                Token anakToken = getParametrik(i);
                 if(anakToken.type==0){
                     Output.logln("angka dapetnya "+anakToken.angka);
-                    anakToken.angka = anakToken.angka * (-1) * MIn.get(rowMatriks[unknownKe],i);
+                    anakToken.angka = anakToken.angka * (-1) * M.get(rowMatriks[unknownKe],i);
                     arrToken.add(anakToken);
                 }else if(anakToken.type==1){
                     Output.logln("param dapetnya X"+anakToken.unknownKe);
-                    anakToken.angka = anakToken.angka * (-1) * MIn.get(rowMatriks[unknownKe],i);
+                    anakToken.angka = anakToken.angka * (-1) * M.get(rowMatriks[unknownKe],i);
                     arrToken.add(anakToken);
                 }else{
                     Output.logln("rekursif dapetnya");
                     for (int j = 0; j < anakToken.daftarToken.size(); j++) {
-                        anakToken.daftarToken.get(j).angka = anakToken.daftarToken.get(j).angka * (-1) * MIn.get(rowMatriks[unknownKe],i);
+                        anakToken.daftarToken.get(j).angka = anakToken.daftarToken.get(j).angka * (-1) * M.get(rowMatriks[unknownKe],i);
                     }
                     arrToken.addAll(anakToken.daftarToken);
                 }

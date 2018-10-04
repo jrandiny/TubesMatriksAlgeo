@@ -1,6 +1,4 @@
 public class SPL extends Solver{
-//    private MatriksSPL M;
-
 
     public void setM(MatriksSPL MIn) {
         M = MIn;
@@ -14,12 +12,21 @@ public class SPL extends Solver{
             for (int i = 0; i < hasil.length; i++) {
                 Output.print("X"+i+" = ");
                 if(hasil[i].type==1){
-                    Output.println(Double.toString(hasil[i].angka));
+                    Output.print(Double.toString(hasil[i].angka));
                 }else if(hasil[i].type==0){
-                    Output.println("bebas");
+                    Output.print("bebas");
                 }else{
-                    Output.println("WIP");
+                    Token resultToken = getParametrik(i);
+                    for (Token isi:resultToken.daftarToken) {
+                        if(isi.type==1){
+                            Output.print(" + "+isi.angka+" ");
+                        }else if(isi.type==0){
+                            Output.print(" + "+isi.angka +"X"+isi.unknownKe+" ");
+                        }
+                    }
                 }
+
+                Output.println();
 
             }
         }else{
