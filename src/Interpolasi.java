@@ -4,16 +4,22 @@ public class Interpolasi extends Solver{
     public void outputHasil() {
         int i = 0;
 
+        Token resultToken;
+
         Output.print("f(x) = ");
 
-        Output.print(Double.toString(hasil[i].angka));
-        Output.print(" + ");
-        i++;
-
         while (i < M.getBrs()-1) {
-            Output.print(Double.toString(hasil[i].angka));
-            Output.print("x^");
-            Output.print(Integer.toString(i));
+            if(hasil[i].type==2){
+                resultToken = getParametrik(i);
+                Output.print(Double.toString(resultToken.daftarToken.get(0).angka));
+            }else{
+                Output.print(Double.toString(hasil[i].angka));
+            }
+
+            if(i!=0){
+                Output.print("x^");
+                Output.print(Integer.toString(i));
+            }
             Output.print(" + ");
             i++;
         }
@@ -21,6 +27,24 @@ public class Interpolasi extends Solver{
         Output.print(Double.toString(hasil[i].angka));
         Output.print("x^");
         Output.print(Integer.toString(i));
+    }
+
+    public void cobaHasil(double x){
+        Output.print(String.format("f(%.2f) = ",x));
+        double total = 0;
+        Token resultToken;
+
+        for (int i = 0; i < jumlahUnknown; i++) {
+            if(hasil[i].type==2){
+                resultToken = getParametrik(i);
+                total = total + (Math.pow(x,i) * resultToken.daftarToken.get(0).angka);
+            }else{
+                total = total + (Math.pow(x,i) * hasil[i].angka);
+            }
+        }
+
+        Output.println(String.format("%.2f",total));
+
     }
 
 

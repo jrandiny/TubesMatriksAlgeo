@@ -29,11 +29,24 @@ public abstract class Matriks {
     public void print(){
         for (int i = 0; i < NBrs; i++) {
             for (int j = 0; j < NKol; j++) {
-                System.out.print(this.get(i,j)+" ");
+                System.out.print(String.format("%.2f ",this.get(i,j)));
             }
             System.out.println();
         }
     }
+
+    /**
+     * Mencetak isi matriks ke layar dan file
+     */
+    public void printF(){
+        for (int i = 0; i < NBrs; i++) {
+            for (int j = 0; j < NKol; j++) {
+                Output.print(String.format("%.2f ",this.get(i,j)));
+            }
+            Output.println();
+        }
+    }
+
 
     /**
      * Mengembalikan jumlah baris

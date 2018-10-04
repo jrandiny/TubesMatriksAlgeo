@@ -7,16 +7,25 @@ public class SPL extends Solver{
             for (int i = 0; i < hasil.length; i++) {
                 Output.print("X"+i+" = ");
                 if(hasil[i].type==1){
-                    Output.print(Double.toString(hasil[i].angka));
+                    Output.print(String.format("%.2f",hasil[i].angka));
                 }else if(hasil[i].type==0){
                     Output.print("bebas");
                 }else{
                     Token resultToken = getParametrik(i);
+
+                    boolean first = true;
+
                     for (Token isi:resultToken.daftarToken) {
+                        if(first){
+                            first = false;
+                        }else{
+                            Output.print(" + ");
+                        }
+
                         if(isi.type==1){
-                            Output.print(" + "+isi.angka+" ");
+                            Output.print(String.format("%.2f ",isi.angka));
                         }else if(isi.type==0){
-                            Output.print(" + "+isi.angka +"X"+isi.unknownKe+" ");
+                            Output.print(String.format("( %.2f * X%d )",isi.angka,isi.unknownKe));
                         }
                     }
                 }

@@ -35,10 +35,10 @@ public class Output {
         }
     }
 
-    public static void startTulis(){
+    public static void startTulis(String namaFile){
 
         try {
-            fw = new FileWriter("output.txt");
+            fw = new FileWriter(namaFile);
             pw = new PrintWriter(fw);
         } catch (IOException e) {
             System.out.println("Error : "+e.getMessage());
@@ -62,9 +62,9 @@ public class Output {
     public static void println(String var) {
         System.out.println(var);
         if (temp == null)
-            temp = var;
+            temp = var +"\n";
         else
-            temp = temp + "\n" + var;
+            temp = temp + var + "\n";
     }
 
     public static void println() {
