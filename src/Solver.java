@@ -6,7 +6,7 @@ public abstract class Solver {
     protected Matriks M;
     protected boolean konsisten;
     protected int jumlahUnknown;
-    protected int[] rowMatriks;
+    private int[] rowMatriks;
 
     public abstract void outputHasil();
 
@@ -98,14 +98,10 @@ public abstract class Solver {
 
         if(hasil[unknownKe].type==1){
             Output.logln("langsung keluar angka "+hasil[unknownKe].angka);
-            Token returnToken = new Token(1,hasil[unknownKe].angka);
-
-            return returnToken;
+            return new Token(1,hasil[unknownKe].angka);
         }else if(hasil[unknownKe].type==0){
             Output.logln("langsung keluar param X"+unknownKe);
-            Token returnToken = new Token(0,1,unknownKe);
-
-            return returnToken;
+            return new Token(0,1,unknownKe);
         }else{
             Output.logln("Proses rekursif");
             Token returnToken = new Token();

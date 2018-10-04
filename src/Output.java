@@ -7,7 +7,7 @@ public class Output {
     private static PrintWriter pw;
     private static String temp;
 
-    public static boolean showLog;
+    private static boolean showLog;
 
     public static boolean isShowLog() {
         return showLog;

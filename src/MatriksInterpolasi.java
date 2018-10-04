@@ -14,7 +14,7 @@ public class MatriksInterpolasi extends Matriks {
         File file = new File(namaFile);
 
         int titik = 0;
-        ArrayList<Double[]> temp = new ArrayList<Double[]>();
+        ArrayList<Double[]> temp = new ArrayList<>();
 
         try {
             Scanner scn = new Scanner(file);

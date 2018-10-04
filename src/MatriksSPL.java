@@ -12,7 +12,7 @@ public class MatriksSPL extends Matriks {
     @Override
     public void bacaFile(String namaFile) {
         int row = 0;
-        ArrayList<ArrayList<Double>> temp = new ArrayList<ArrayList<Double>>();
+        ArrayList<ArrayList<Double>> temp = new ArrayList<>();
 
         try {
             File file = new File(namaFile);
@@ -22,7 +22,7 @@ public class MatriksSPL extends Matriks {
             while(scn.hasNextLine()){
                 String line = scn.nextLine();
 
-                temp.add(new ArrayList<Double>());
+                temp.add(new ArrayList<>());
 
                 Scanner linescn = new Scanner(line);
 

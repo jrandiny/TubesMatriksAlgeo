@@ -2,14 +2,11 @@ public abstract class Matriks {
     protected double[][] isi;
     protected int NKol;
     protected int NBrs;
-    protected boolean solved;
-    protected final int IDXUNDEF = -99;
 
     /**
      * Constuctor
      */
     public Matriks(){
-        solved = false;
         NBrs = 0;
         NKol = 0;
     }
@@ -75,14 +72,6 @@ public abstract class Matriks {
     }
 
     /**
-     * Apakah matriks sudah digauss atau gauss-jordan
-     * @return solved
-     */
-    public boolean isSolved(){
-        return this.solved;
-    }
-
-    /**
      * Menambah baris matriks ke baris lain
      * @param row baris yang ditambah
      * @param rowLain baris yang digunakan untuk menambah
@@ -133,43 +122,16 @@ public abstract class Matriks {
     }
 
     /**
-     * Cari indeks baris dengan nol paling banyak
-     * @return indeks
-     */
-    private int nolBanyak(){
-        //cari baris/row yang 0 nya paling banyak
-        int max = -999;
-        int NMax,row;
-
-        row = IDXUNDEF;
-
-        for (int i = 0; i < isi.length; i++) {
-            NMax = 0;
-            for (int j = 0; j < isi[i].length; j++) {
-                if (isi[i][j] == 0) {
-                    NMax = NMax + 1;
-                }
-            }
-            if (max < NMax) {
-                max = NMax;
-                row = i;
-            }
-        }
-        return row;
-    }
-
-    /**
      * Mengembalikan true jika 1 baris nol semua
      * @param row baris yang ingin dicek
      * @return true jika nol semua
      */
-    public boolean NolSebaris(int row) {
+    private boolean NolSebaris(int row) {
         int j = 0;
-        int i = row;
         boolean allNol = true;
 
         while (j < getCol()) {
-            if (get(i,j) != 0) {
+            if (get(row,j) != 0) {
                 allNol = false;
             }
             j++;
@@ -192,9 +154,7 @@ public abstract class Matriks {
             int k = baris;
             int l = kolom;
             Output.logln("CEK 0");
-            if (NolSebaris(baris)) {
-
-            } else {
+            if (!NolSebaris(baris)) {
                 while (get(k, l) == 0) {
                     Output.logln("0 detected, cek bukan 0 di " + k + "," + l);
                     k++;
