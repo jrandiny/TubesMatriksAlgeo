@@ -66,6 +66,14 @@ public class Output {
             temp = temp + "\n" + var;
     }
 
+    public static void println() {
+        System.out.println();
+        if (temp == null)
+            temp = "\n";
+        else
+            temp = temp + "\n";
+    }
+
     public static void tulisMatriks(Matriks M) {
 
 
