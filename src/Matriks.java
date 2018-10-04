@@ -1,8 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public abstract class Matriks {
     protected double[][] isi;
     protected int NKol;
@@ -104,7 +99,7 @@ public abstract class Matriks {
      */
     private void Tambah(int rowDitambah, int rowPenambah, double kali){
         //nambahin row 1 dgn row lainnya
-        for (int j = 0; j < isi[rowDitambah].length; j++) {
+        for (int j = 0; j < getCol(); j++) {
             isi[rowDitambah][j] = isi[rowDitambah][j] + kali*isi[rowPenambah][j];
         }
     }
