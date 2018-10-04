@@ -173,7 +173,6 @@ public abstract class Matriks {
                 if (k != baris) {
                     Output.logln("TUKAR CALLED " + baris + " dengan " + k);
                     TukarRow(baris, k);
-                    print();
                 }
 
                 tempLead = get(baris, kolom);
@@ -181,7 +180,6 @@ public abstract class Matriks {
                 Kali(baris, (1 / tempLead));
 
                 Output.logln("MATRIKS SUDAH DIKALI");
-                print();
 
                 int j = baris + 1;
                 while (j < getBrs()) {
@@ -189,10 +187,7 @@ public abstract class Matriks {
                     j++;
                 }
 
-                System.out.println("HASIL PROSES");
-                print();
             }
-
 
             baris++;
             kolom++;
@@ -200,8 +195,8 @@ public abstract class Matriks {
         }
     }
 
-    public void GaussJordan() {
-        Gauss(); //matriksnya di gauss dulu
+    public void gaussJordan() {
+        gauss(); //matriksnya di gauss dulu
         int i = getBrs()-2; //sebenernya ini ga penting, tapi uda terlanjur bikin
         int j = getCol()-2; //kolom matriks
         int baris; //baris yang bakal dikurangin
@@ -228,84 +223,5 @@ public abstract class Matriks {
             j--; //ganti kolom
         }
     }
-
-
-//  public  void GaussJordanEl()
-//  {
-//    int i, j, k, l, m, n, o, p, q, row, col;
-//    int max, div;
-//
-//    row = getBrs();
-//    col = getCol();
-//    if (row > col){
-//      i = row;
-//    }
-//    else{
-//        i = col;
-//    }
-//    for (j = 0; j < i; j++){
-//      max = j;
-//      for (k = j + 1; k < i; k++){
-//        if (Math.abs(isi[k][j]) > Math.abs(isi[max][j])){
-//            max = k;
-//        }
-//      }
-//      double[] temp1;
-//      temp1 = M[j];
-//      M[j] = M[max];
-//      M[max] = temp1;
-//      double temp2;
-//      temp2 = N[j];
-//      N[j] = N[max];
-//      N[max] = temp2;
-//
-//      //Agar nilai pivot menjadi 1
-//      l = j;
-//      while ((l < col) && (isi[j][l] == 0)){
-//        l++;
-//      }
-//      if (l < col){
-//          div = isi[j][l];
-//          for (m = j; m < col; m++){
-//                isi[j][m] = isi[j][m] / div;
-//          }
-//         N[j] = N[j] / div;
-//      }
-//
-//      //Agar elemen-elemen di bawah pivot bernilai 0
-//      for (n = j + 1; n < row; n++){
-//            div = isi[n][l] / isi[j][l];
-//            for (o = 0; o < col; o++){
-//                isi[n][o] = isi[n][o] - (div * isi[j][o]);
-//            }
-//            N[n] = N[n] - (div * N[j]);
-//
-//      }
-//
-//    }
-//
-//    boolean stop = false;
-//    for (p = 0; p < col; p++){
-//        q = row - 1;
-//        while ((isi[q][p] != 1) && (q >= 0)){
-//            if ((p == col - 1) && (isi[q][p] == 0)){
-//                stop = true;
-//                break;
-//            }
-//            q--;
-//        }
-//      if (stop) break;
-//      double temp3;
-//      if (q != 0){
-//          for (i = 0; i < q; i++){
-//              temp3 = isi[i][p] / isi[q][p];
-//              for (j = 0; j < col; j++){
-//                  isi[i][j] = isi[i][j] - (temp3 * isi[q][j]);
-//              }
-//              N[i] = N[i] - (temp3 * N[q]);
-//          }
-//      }
-//    }
-//  }
 
 }
