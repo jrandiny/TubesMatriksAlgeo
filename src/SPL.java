@@ -1,73 +1,27 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class SPL {
-    private Matriks M;
+public class SPL extends Solver{
+//    private MatriksSPL M;
 
-    private boolean NolBawah() {
-        int j = 0;
-        int i = M.getBrs();
-        boolean allNol = true;
 
-        while (j < M.getCol()) {
-            if (M.get(i,j) != 0) {
-                allNol = false;
-            }
-            j++;
-        }
-
-        return allNol;
-    }
-
-    public void setM(Matriks MIn) {
+    public void setM(MatriksSPL MIn) {
         M = MIn;
+        hasil = new Token[M.getCol()-1];
     }
 
-    public boolean adaHasil() {
-        int j = M.getCol()+1;
-        int i = M.getBrs();
-        boolean ada;
-
-        if (NolBawah()) {
-            return M.get(i, j) == 0;
-        }
-        else
-            return true;
-    }
-
-    public int selisihBrsKol() {
-
-        return M.getCol() - M.getBrs();
-    }
-
-    public void penyelesaianSimetris() {
-        int barisMatriks = M.getBrs() - 1;
-        int kolomMatriks;
-        int nomorArray = M.getCol()- 2;
-
-        double[] X = new double[10];
-
-        while (barisMatriks != -1) {
-            kolomMatriks = M.getCol()-2;
-
-            if (barisMatriks == M.getBrs()-1) {
-                X[nomorArray] = M.get(barisMatriks,kolomMatriks+1);
-            }
-            else {
-                X[nomorArray] = 0;
-                while (kolomMatriks != barisMatriks) {
-                    X[nomorArray] = X[nomorArray] - (M.get(barisMatriks,kolomMatriks) * X[kolomMatriks]);
-                    kolomMatriks--;
-                }
-                X[nomorArray] = X[nomorArray] + M.get(barisMatriks,M.getCol()-1);
+    @Override
+    public void outputHasil(){
+        for (int i = 0; i < hasil.length; i++) {
+            Output.print("X"+i+" = ");
+            if(hasil[i].type==1){
+                Output.println(Double.toString(hasil[i].angka));
+            }else if(hasil[i].type==0){
+                Output.println("bebas");
+            }else{
+                Output.println("WIP");
             }
 
-            barisMatriks--;
-            nomorArray--;
-        }
-
-        for (int i = 0; i < 4; i++) {
-            System.out.println(X[i]);
         }
     }
 
@@ -124,7 +78,7 @@ public class SPL {
             }else if(unknownParam[i]==1){
                 System.out.print(Double.toString(isiParam[i]));
             }else{
-                System.out.println("TBD");
+//                System.out.println("TBD");
                 Token resultToken = getParametrikText(jumlahUnknown,isiParam,unknownParam,i,rowMatriks,M);
                 for (Token isi:resultToken.daftarToken) {
                     if(isi.type==1){
@@ -135,25 +89,23 @@ public class SPL {
                 }
             }
             System.out.println();
-            System.out.println();
-            System.out.println();
         }
 
     }
 
     private Token getParametrikText(int jumlahUnknown,double[] isiParam, int[] unknownType,int unknownKe, int[] rowMatriks, Matriks MIn){
-        System.out.println("getParametrixText");
-        System.out.println("Operasi di unknown ke "+unknownKe);
+        Output.logln("getParametrixText");
+        Output.logln("Operasi di unknown ke "+unknownKe);
 
         if(unknownType[unknownKe]==1){
-            System.out.println("langsung keluar angka "+isiParam[unknownKe]);
+            Output.logln("langsung keluar angka "+isiParam[unknownKe]);
             Token returnToken = new Token();
             returnToken.angka = isiParam[unknownKe];
             returnToken.type = 1;
 
             return returnToken;
         }else if(unknownType[unknownKe]==0){
-            System.out.println("langsung keluar param X"+unknownKe);
+            Output.logln("langsung keluar param X"+unknownKe);
             Token returnToken = new Token();
             returnToken.type = 0;
             returnToken.angka = 1;
@@ -161,7 +113,7 @@ public class SPL {
 
             return returnToken;
         }else{
-            System.out.println("Proses rekursif");
+            Output.logln("Proses rekursif");
             Token returnToken = new Token();
             returnToken.type = 2;
             returnToken.unknownKe = unknownKe;
@@ -171,22 +123,22 @@ public class SPL {
             Token baseToken = new Token();
             baseToken.type = 1;
             baseToken.angka = isiParam[unknownKe];
-            System.out.println("add base = "+isiParam[unknownKe]);
+            Output.logln("add base = "+isiParam[unknownKe]);
             arrToken.add(baseToken);
 
             for (int i = unknownKe+1; i < jumlahUnknown; i++) {
-                System.out.println("Cek ke kanan pada pos "+i);
+                Output.logln("Cek ke kanan pada pos "+i);
                 Token anakToken = getParametrikText(jumlahUnknown,isiParam,unknownType,i,rowMatriks,MIn);
                 if(anakToken.type==0){
-                    System.out.println("angka dapetnya "+anakToken.angka);
+                    Output.logln("angka dapetnya "+anakToken.angka);
                     anakToken.angka = anakToken.angka * (-1) * MIn.get(rowMatriks[unknownKe],i);
                     arrToken.add(anakToken);
                 }else if(anakToken.type==1){
-                    System.out.println("param dapetnya X"+anakToken.unknownKe);
+                    Output.logln("param dapetnya X"+anakToken.unknownKe);
                     anakToken.angka = anakToken.angka * (-1) * MIn.get(rowMatriks[unknownKe],i);
                     arrToken.add(anakToken);
                 }else{
-                    System.out.println("rekursif dapetnya");
+                    Output.logln("rekursif dapetnya");
                     for (int j = 0; j < anakToken.daftarToken.size(); j++) {
                         anakToken.daftarToken.get(j).angka = anakToken.daftarToken.get(j).angka * (-1) * MIn.get(rowMatriks[unknownKe],i);
                     }
@@ -194,23 +146,23 @@ public class SPL {
                 }
 
             }
-            System.out.println("selesai cek anak");
-            System.out.println("ISI ARRAY");
+            Output.logln("selesai cek anak");
+            Output.logln("ISI ARRAY");
 
             for (Token isiii: arrToken) {
-                System.out.println(isiii.type);
+                Output.logln(Integer.toString(isiii.type));
                 if(isiii.type==1){
-                    System.out.print("Angka = ");
-                    System.out.println(isiii.angka);
+                    Output.log("Angka = ");
+                    Output.logln(Double.toString(isiii.angka));
                 }else if(isiii.type==0){
-                    System.out.print("Param = X");
-                    System.out.println(isiii.unknownKe);
+                    Output.log("Param = X");
+                    Output.logln(Integer.toString(isiii.unknownKe));
                 }
 
 
             }
 
-            System.out.println("FINISHHHH tinggal eval");
+            Output.logln("FINISHHHH tinggal eval");
 
             //EVALUASI SEMUA (1/2 angka)
             double tempAngka = 0;

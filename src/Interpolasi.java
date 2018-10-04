@@ -1,65 +1,32 @@
-public class Interpolasi {
-    private Matriks M;
-    private double[] X = new double[100];
+public class Interpolasi extends Solver{
 
-    public void setArray(double[] Arr) {
-        X = Arr;
-    }
+    @Override
+    public void outputHasil() {
+        int i = 0;
 
-    public double[] getNArray() {
-        return X;
+        Output.print("f(x) = ");
+
+        Output.print(Double.toString(hasil[i].angka));
+        Output.print(" + ");
+        i++;
+
+        while (i < M.getBrs()-1) {
+            Output.print(Double.toString(hasil[i].angka));
+            Output.print("x^");
+            Output.print(Integer.toString(i));
+            Output.print(" + ");
+            i++;
+        }
+
+        Output.print(Double.toString(hasil[i].angka));
+        Output.print("x^");
+        Output.print(Integer.toString(i));
     }
 
     public void setM(Matriks MIn) {
         M = MIn;
+        hasil = new Token[M.getCol()-1];
     }
 
-    public void penyelesaian() {
-        int barisMatriks = M.getBrs() - 1;
-        int kolomMatriks;
-        int nomorArray = M.getCol()- 2;
 
-
-        while (barisMatriks != -1) {
-            kolomMatriks = M.getCol()-2;
-
-            if (barisMatriks == M.getBrs()-1) {
-                X[nomorArray] = M.get(barisMatriks,kolomMatriks+1);
-            }
-            else {
-                X[nomorArray] = 0;
-                while (kolomMatriks != barisMatriks) {
-                    X[nomorArray] = X[nomorArray] - (M.get(barisMatriks,kolomMatriks) * X[kolomMatriks]);
-                    kolomMatriks--;
-                }
-                X[nomorArray] = X[nomorArray] + M.get(barisMatriks,M.getCol()-1);
-            }
-
-            barisMatriks--;
-            nomorArray--;
-        }
-    }
-
-    public void tulisPenyelesaian() {
-
-        int i = 0;
-
-        System.out.print("f(x)=");
-
-        System.out.print(X[i]);
-        System.out.print("+");
-        i++;
-
-        while (i < M.getBrs()-1) {
-            System.out.print(X[i]);
-            System.out.print("x^");
-            System.out.print(i);
-            System.out.print("+");
-            i++;
-        }
-
-        System.out.print(X[i]);
-        System.out.print("x^");
-        System.out.print(i);
-    }
 }
