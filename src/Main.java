@@ -87,6 +87,8 @@ public class Main {
         if(input==1){
             System.out.print("Nama file : ");
 
+            scn = new Scanner(System.in);
+
             String namaFile = scn.nextLine();
 
             MIn.bacaFile(namaFile);
@@ -125,7 +127,7 @@ public class Main {
         if(cetak ==1){
             System.out.print("Nama file : ");
 
-            scn.nextLine();
+            scn = new Scanner(System.in);
 
             String namaFile = scn.nextLine();
 

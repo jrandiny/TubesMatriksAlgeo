@@ -34,7 +34,7 @@ public class MatriksSPL extends Matriks {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Error : "+e.getMessage());
         }
 
 
