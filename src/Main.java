@@ -51,62 +51,60 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        Output.setShowLog(false);
         System.out.println("TUBES ALGEO");
+
+        int opsi = promptUtama();
+
         Matriks MIn;
+        Solver slv;
 
-//        int opsi = promptUtama();
-//
-//        if(opsi==3){
-//            System.exit(0);
-//        }else{
-//            int metode = promptOpsi();
-//            int input = promptInput();
-//
-//            if(input==1){
-//                System.out.print("Nama file : ");
-//
-//                Scanner scn = new Scanner(System.in);
-//
-//                String namaFile = scn.nextLine();
-//
-//                MIn = new Matriks();
-//
-//                if(opsi==1){
-//                    MIn.bacaFileSPL(namaFile);
-//                }else if(opsi==2){
-//                    MIn.bacaFileInterpolasi(namaFile);
-//                }
-//
-//
-//            }else{
-//                MIn = new Matriks();
-//
-//                if(opsi==1){
-//                    MIn.bacaSPL();
-//                }else if(opsi==2){
-//                    MIn.bacaInterPolasi();
-//                }
-//
-//            }
+        MIn = new MatriksSPL();
+        slv = new SPL();
 
-        MIn = new Matriks();
-            MIn.bacaSPL();
+        if(opsi==3){
+            System.exit(0);
+        }else if(opsi==2){
+            MIn = new MatriksInterpolasi();
+            slv = new Interpolasi();
 
-            System.out.println("Matriks yang diinput : ");
-            MIn.print();
+        }else{
+            MIn = new MatriksSPL();
+            slv = new SPL();
+        }
 
-            MIn.Gauss();
+        int metode = promptOpsi();
+        int input = promptInput();
 
-            System.out.println("HASIL GAUSS : ");
-            MIn.print();
+        if(input==1){
+            System.out.print("Nama file : ");
 
-            SPL solver = new SPL();
-            solver.setM(MIn);
+            Scanner scn = new Scanner(System.in);
 
-            System.out.println("HASUL X");
+            String namaFile = scn.nextLine();
 
-            solver.penyelesaianSimetris();
-//        }
+            MIn.bacaFile(namaFile);
+        }else{
+            MIn.baca();
+        }
+
+        if(metode==1){
+            MIn.gauss();
+        }else{
+            System.out.println("Aa");
+            MIn.gauss();
+        }
+
+
+        slv.setM(MIn);
+
+        slv.solveAll();
+
+        slv.outputHasil();
+
+
+
+
 
     }
 }
