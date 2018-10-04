@@ -1,8 +1,49 @@
 public abstract class Solver {
     protected Token[] hasil;
     protected Matriks M;
+    protected boolean konsisten;
 
     public abstract void outputHasil();
+
+    private boolean isKonsisten(){
+        //KAMUS
+        boolean konsisten;
+        boolean sebarisNol;
+        int i,j;
+
+        // ALGORITMA
+
+        konsisten = true;
+        i = 0;
+        while(konsisten && i<M.getBrs()){
+            sebarisNol = true;
+            for (j = 0; j < M.getCol(); j++) {
+                if(M.get(i,j)!=0){
+                    sebarisNol =false;
+                }
+
+                if((j ==  M.getCol()-1)&&sebarisNol){
+                    //semua nol kecuali kolom terakhir
+                    konsisten = false;
+                }
+            }
+            i++;
+        }
+
+        return konsisten;
+    }
+
+    public void solveAll(){
+        //KAMUS LOKAL
+
+
+        //ALGORITMA
+        this.konsisten = isKonsisten();
+
+        if(konsisten){
+            penyelesaianSimetris();
+        }
+    }
 
     /**
      * Mencari solusi matriks yang simetris
