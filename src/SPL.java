@@ -1,6 +1,8 @@
 public class SPL extends Solver{
 
-
+    /**
+     * Mengeluarkan output hasil dari Sistem Persamaan Linear
+     */
     @Override
     public void outputHasil(){
         if(konsisten){

@@ -1,5 +1,8 @@
 public class Interpolasi extends Solver{
 
+    /**
+     * Menampilkan output hasil interpolasi
+     */
     @Override
     public void outputHasil() {
         int i = 0;

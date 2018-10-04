@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class Main {
+    /**
+     * Memilih menu penyelesaian
+     */
     private static int promptUtama(Scanner scan){
         System.out.println("MENU");
         System.out.println("1. Sistem Persamaan Linear");
@@ -16,6 +19,9 @@ public class Main {
         return menu;
     }
 
+    /**
+     * Memilih menu metode
+     */
     private static int promptOpsi(Scanner scan){
         System.out.println("PILIH METODE");
         System.out.println("1. Metode eliminasi Gauss");
@@ -41,7 +47,9 @@ public class Main {
 
         return opt;
     }
-
+    /**
+     * Memilih menu input
+     */
     private static int promptInput(Scanner scan){
         System.out.println("PILIH TIPE INPUT");
         System.out.println("1. File");
@@ -56,6 +64,9 @@ public class Main {
         return input;
     }
 
+    /**
+     * Main program, menyatukan semuanya
+     */
     public static void main(String[] args) {
         Output.setShowLog(false);
         System.out.println("TUBES ALGEO");

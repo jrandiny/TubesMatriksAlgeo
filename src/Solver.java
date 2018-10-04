@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public abstract class Solver {
+    /**
+     * kamus
+     */
     protected Token[] hasil;
     protected Matriks M;
     protected boolean konsisten;
@@ -10,12 +13,18 @@ public abstract class Solver {
 
     public abstract void outputHasil();
 
+    /**
+     * Mengeset Matriks
+     */
     public void setM(Matriks MIn) {
         M = MIn;
         jumlahUnknown = M.getCol()-1;
         hasil = new Token[M.getCol()-1];
     }
 
+    /**
+     * Mengecek kekonsistenan matriks
+     */
     private boolean isKonsisten(){
         //KAMUS
         boolean konsisten;
@@ -48,6 +57,9 @@ public abstract class Solver {
         return konsisten;
     }
 
+    /**
+     * Menyimpan hasil di tempat sementara
+     */
     private void initHasil(){
         for (int i = 0; i < jumlahUnknown; i++) {
             hasil[i] = new Token();
