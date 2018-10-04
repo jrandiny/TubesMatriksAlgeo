@@ -29,6 +29,12 @@ public class Output {
         }
     }
 
+    public static void logln() {
+        if (showLog) {
+            System.out.println();
+        }
+    }
+
     public static void startTulis(){
 
         try {
