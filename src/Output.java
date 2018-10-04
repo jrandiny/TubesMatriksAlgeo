@@ -52,12 +52,18 @@ public class Output {
 
     public static void print(String var) {
         System.out.print(var);
-        temp = var;
+        if (temp == null)
+            temp = var;
+        else
+            temp = temp + var;
     }
 
     public static void println(String var) {
         System.out.println(var);
-        pw.println(var);
+        if (temp == null)
+            temp = var;
+        else
+            temp = temp + "\n" + var;
     }
 
     public static void tulisMatriks(Matriks M) {
