@@ -107,13 +107,16 @@ public class Main {
 
         // Input sesuai yang dimau
         if(input==1){
-            System.out.print("Nama file : ");
+            do {
+                System.out.print("Nama file : ");
 
-            scn = new Scanner(System.in);
+                scn = new Scanner(System.in);
 
-            String namaFile = scn.nextLine();
+                String namaFile = scn.nextLine();
 
-            MIn.bacaFile(namaFile);
+                MIn.bacaFile(namaFile);
+            }while (MIn.getBrs()==0);
+
         }else{
             MIn.baca();
         }
