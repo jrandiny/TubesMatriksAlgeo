@@ -10,6 +10,12 @@ public abstract class Solver {
 
     public abstract void outputHasil();
 
+    public void setM(Matriks MIn) {
+        M = MIn;
+        jumlahUnknown = M.getCol()-1;
+        hasil = new Token[M.getCol()-1];
+    }
+
     private boolean isKonsisten(){
         //KAMUS
         boolean konsisten;

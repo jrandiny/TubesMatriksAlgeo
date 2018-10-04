@@ -1,10 +1,5 @@
 public class SPL extends Solver{
 
-    public void setM(MatriksSPL MIn) {
-        M = MIn;
-        jumlahUnknown = M.getCol()-1;
-        hasil = new Token[jumlahUnknown];
-    }
 
     @Override
     public void outputHasil(){

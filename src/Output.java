@@ -39,15 +39,16 @@ public class Output {
 
         try {
             fw = new FileWriter("output.txt");
+            pw = new PrintWriter(fw);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error : "+e.getMessage());
         }
-        pw = new PrintWriter(fw);
-
     }
 
     public static void tulisFile(){
-        pw.print(temp);
+        if(pw!=null){
+            pw.print(temp);
+        }
     }
 
     public static void print(String var) {
@@ -90,7 +91,8 @@ public class Output {
     }
 
     public static void selesaiTulis() {
-
-        pw.close();
+        if(pw!=null){
+            pw.close();
+        }
     }
 }

@@ -143,7 +143,7 @@ public abstract class Matriks {
     /**
      * Megubah matriks menjadi echelon form
      */
-    public void Gauss() {
+    public void gauss() {
         double tempLead;
         int baris = 0;
         int kolom = baris;

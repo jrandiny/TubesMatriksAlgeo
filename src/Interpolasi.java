@@ -23,10 +23,7 @@ public class Interpolasi extends Solver{
         Output.print(Integer.toString(i));
     }
 
-    public void setM(Matriks MIn) {
-        M = MIn;
-        hasil = new Token[M.getCol()-1];
-    }
+
 
 
 }
