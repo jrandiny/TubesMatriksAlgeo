@@ -195,6 +195,9 @@ public abstract class Matriks {
         }
     }
 
+    /**
+     * Mengubah matriks menjadi Matriks Gauss Jordan
+     */
     public void gaussJordan() {
         gauss(); //matriksnya di gauss dulu
         int i = getBrs()-2; //sebenernya ini ga penting, tapi uda terlanjur bikin
