@@ -68,19 +68,28 @@ public class Main {
      * Main program, menyatukan semuanya
      */
     public static void main(String[] args) {
-        Output.setShowLog(false);
-        System.out.println("TUBES ALGEO");
+        // KAMUS
         Scanner scn = new Scanner(System.in);
         double temp;
-
-        int opsi = promptUtama(scn);
-
+        int opsi;  // SPL atau interpolasi
+        int metode; // Gauss atau gauss jordan
+        int input; // metode input
+        int cetak; // Apa mau dicetak
         Matriks MIn;
         Solver slv;
+
+
+        // ALGORITMA
+        Output.setShowLog(false);
+        System.out.println("TUBES ALGEO");
+
+        // Tanya mau lakukan apa
+        opsi = promptUtama(scn);
 
         MIn = new MatriksSPL();
         slv = new SPL();
 
+        //Setup matriks dan solver sesuai tipe
         if(opsi==3){
             System.exit(0);
         }else if(opsi==2){
@@ -92,9 +101,11 @@ public class Main {
             slv = new SPL();
         }
 
-        int metode = promptOpsi(scn);
-        int input = promptInput(scn);
+        // Tanya metode
+        metode = promptOpsi(scn);
+        input = promptInput(scn);
 
+        // Input sesuai yang dimau
         if(input==1){
             System.out.print("Nama file : ");
 
@@ -107,12 +118,14 @@ public class Main {
             MIn.baca();
         }
 
+        // Selesaikan matriks sesuai metode
         if(metode==1){
             MIn.gauss();
         }else{
             MIn.gaussJordan();
         }
 
+        // Cetak hasil
         Output.println("Matriks hasil");
         MIn.printF();
 
@@ -126,6 +139,7 @@ public class Main {
 
         Output.println();
 
+        // Jika interpolasi, bisa masukkan x
         if(opsi==2){
             System.out.print("Masukkan x yang mau dihitung = ");
             temp = scn.nextDouble();
@@ -133,7 +147,8 @@ public class Main {
             slvInter.cobaHasil(temp);
         }
 
-        int cetak = promptCetak(scn);
+        // Mau disimpan atau tidak
+        cetak = promptCetak(scn);
 
         if(cetak ==1){
             System.out.print("Nama file : ");

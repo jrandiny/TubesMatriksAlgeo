@@ -2,9 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public abstract class Solver {
-    /**
-     * kamus
-     */
+    // KAMUS
     protected Token[] hasil;
     protected Matriks M;
     protected boolean konsisten;
@@ -66,9 +64,14 @@ public abstract class Solver {
         }
     }
 
+    /**
+     * Menyelesaikan persamaan matriks
+     */
     public void solveAll(){
         //KAMUS LOKAL
         int i,j;
+        int jumlahNonZero;
+        int lokasiLeading;
 
 
         //ALGORITMA
@@ -80,8 +83,6 @@ public abstract class Solver {
 
             for (i = 0; i < M.getBrs(); i++) {
                 j = 0;
-                int jumlahNonZero;
-                int lokasiLeading;
 
                 jumlahNonZero = 0;
                 lokasiLeading = 0;
@@ -110,69 +111,65 @@ public abstract class Solver {
         }
     }
 
+    /**
+     * Rekursif untuk mendapatkan sebuah unknown
+     * @param unknownKe posisi unknown
+     * @return token yang berisi isi dari unknown yang dicari
+     */
     protected Token getParametrik(int unknownKe){
-        Output.logln("getParametrixText");
-        Output.logln("Operasi di unknown ke "+unknownKe);
+        // KAMUS LOKAL
+        int i,j,k;
+        Token returnToken;
+        double[] tempJumlahParam; // Menyimpan hasil merge semua anak token (tipe variabel (0))
+        double tempAngka;      // Menyimpan hasil merge semua anak token (tipe angka (1))
+        Iterator<Token> itr;   // Iterator untuk nanti merge semua anak token
+        Iterator<Token> itr2;  // Iterator untuk nanti merge semua anak token
 
+        // ALGORTIMA
+
+        // Basis, jika tipe angka atau parameter
         if(hasil[unknownKe].type==1){
-            Output.logln("langsung keluar angka "+hasil[unknownKe].angka);
             return new Token(1,hasil[unknownKe].angka);
         }else if(hasil[unknownKe].type==0){
-            Output.logln("langsung keluar param X"+unknownKe);
             return new Token(0,1,unknownKe);
         }else{
-            Output.logln("Proses rekursif");
-            Token returnToken = new Token();
+            // Jika tipernya butuh direkursi
+
+            // buat returnToken yang nanti akan diisi
+            returnToken = new Token();
             returnToken.type = 2;
             returnToken.unknownKe = unknownKe;
 
+            // arraylist token untuk
             ArrayList<Token> arrToken = new ArrayList<>();
 
+            // Tambahkan base (nilai y) (untuk nanti dikurang/tambah dengan nilai lain
             Token baseToken = new Token(1,hasil[unknownKe].angka);
-            Output.logln("add base = "+hasil[unknownKe].angka);
             arrToken.add(baseToken);
 
-            for (int i = unknownKe+1; i < jumlahUnknown; i++) {
-                Output.logln("Cek ke kanan pada pos "+i);
+            // Rekursifkan semua unknown sebelah kanannya
+            for (i = unknownKe+1; i < jumlahUnknown; i++) {
                 Token anakToken = getParametrik(i);
+
+                // Cek tipe lalu gabungkan ke arrToken
                 if(anakToken.type==0){
-                    Output.logln("angka dapetnya "+anakToken.angka);
                     anakToken.angka = anakToken.angka * (-1) * M.get(rowMatriks[unknownKe],i);
                     arrToken.add(anakToken);
                 }else if(anakToken.type==1){
-                    Output.logln("param dapetnya X"+anakToken.unknownKe);
                     anakToken.angka = anakToken.angka * (-1) * M.get(rowMatriks[unknownKe],i);
                     arrToken.add(anakToken);
                 }else{
-                    Output.logln("rekursif dapetnya");
-                    for (int j = 0; j < anakToken.daftarToken.size(); j++) {
+                    for (j = 0; j < anakToken.daftarToken.size(); j++) {
                         anakToken.daftarToken.get(j).angka = anakToken.daftarToken.get(j).angka * (-1) * M.get(rowMatriks[unknownKe],i);
                     }
                     arrToken.addAll(anakToken.daftarToken);
                 }
 
             }
-            Output.logln("selesai cek anak");
-            Output.logln("ISI ARRAY");
 
-            for (Token isiii: arrToken) {
-                Output.logln(Integer.toString(isiii.type));
-                if(isiii.type==1){
-                    Output.log("Angka = ");
-                    Output.logln(Double.toString(isiii.angka));
-                }else if(isiii.type==0){
-                    Output.log("Param = X");
-                    Output.logln(Integer.toString(isiii.unknownKe));
-                }
-
-
-            }
-
-            Output.logln("FINISHHHH tinggal eval");
-
-            //EVALUASI SEMUA (1/2 angka)
-            double tempAngka = 0;
-            Iterator<Token> itr = arrToken.iterator();
+            // Evaluasi isi arrToken dan gabungkan semua yang angka (tipe 1)
+            tempAngka = 0;
+            itr = arrToken.iterator();
 
             while (itr.hasNext()){
                 Token tempToken = itr.next();
@@ -186,9 +183,9 @@ public abstract class Solver {
 
             arrToken.add(angkaToken);
 
-            //EVALUASI SEMUA(2/2 PARAM)
-            double[] tempJumlahParam = new double[jumlahUnknown];
-            Iterator<Token> itr2 = arrToken.iterator();
+            // Evaluasi isi arrToken dan gabungkan semua variabel (tipe 0)
+            tempJumlahParam = new double[jumlahUnknown];
+            itr2 = arrToken.iterator();
 
             while (itr2.hasNext()){
                 Token tempToken = itr2.next();
@@ -198,9 +195,10 @@ public abstract class Solver {
                 }
             }
 
-            for (int z = 0; z < jumlahUnknown; z++) {
-                if(tempJumlahParam[z]!=0){
-                    Token tempUnknownToken = new Token(0,tempJumlahParam[z],z);
+
+            for (k = 0; k < jumlahUnknown; k++) {
+                if(tempJumlahParam[k]!=0){
+                    Token tempUnknownToken = new Token(0,tempJumlahParam[k],k);
 
                     arrToken.add(tempUnknownToken);
                 }
@@ -209,37 +207,6 @@ public abstract class Solver {
             returnToken.daftarToken = arrToken;
 
             return returnToken;
-        }
-    }
-
-    /**
-     * Mencari solusi matriks yang simetris
-     * Prekondisi = Matriks kotak
-     */
-    public void penyelesaianSimetris(){
-        int barisMatriks = M.getBrs() - 1;
-        int kolomMatriks;
-        int nomorArray = M.getCol()- 2;
-
-
-
-        while (barisMatriks != -1) {
-            kolomMatriks = M.getCol()-2;
-
-            if (barisMatriks == M.getBrs()-1) {
-                hasil[nomorArray] = new Token(1,M.get(barisMatriks,kolomMatriks+1));
-            }
-            else {
-                hasil[nomorArray] = new Token(1,0);
-                while (kolomMatriks != barisMatriks) {
-                    hasil[nomorArray].angka = hasil[nomorArray].angka - (M.get(barisMatriks,kolomMatriks) * hasil[kolomMatriks].angka);
-                    kolomMatriks--;
-                }
-                hasil[nomorArray].angka = hasil[nomorArray].angka + ( M.get(barisMatriks,M.getCol()-1));
-            }
-
-            barisMatriks--;
-            nomorArray--;
         }
     }
 }

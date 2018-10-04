@@ -5,8 +5,13 @@ public class SPL extends Solver{
      */
     @Override
     public void outputHasil(){
+        // KAMUS
+        int i;
+        boolean first;
+
+        // ALGORITMA
         if(konsisten){
-            for (int i = 0; i < hasil.length; i++) {
+            for (i = 0; i < hasil.length; i++) {
                 Output.print("X"+i+" = ");
                 if(hasil[i].type==1){
                     Output.print(String.format("%.2f",hasil[i].angka));
@@ -15,15 +20,17 @@ public class SPL extends Solver{
                 }else{
                     Token resultToken = getParametrik(i);
 
-                    boolean first = true;
+                    first = true;
 
                     for (Token isi:resultToken.daftarToken) {
+                        // Untuk pertama, tidak usah tambahin tanda +
                         if(first){
                             first = false;
                         }else{
                             Output.print(" + ");
                         }
 
+                        // Jika unknown, tampilkan dengan kurung dan X
                         if(isi.type==1){
                             Output.print(String.format("%.2f ",isi.angka));
                         }else if(isi.type==0){

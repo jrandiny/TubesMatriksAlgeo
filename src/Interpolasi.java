@@ -32,6 +32,10 @@ public class Interpolasi extends Solver{
         Output.print(Integer.toString(i));
     }
 
+    /**
+     * Mencoba angka x ke hasil interpolasi
+     * @param x x yang mau dimasukkan
+     */
     public void cobaHasil(double x){
         Output.print(String.format("f(%.2f) = ",x));
         double total = 0;

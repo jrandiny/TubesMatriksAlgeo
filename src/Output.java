@@ -3,9 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Output {
-    /**
-     * Kamus
-     */
+    // KAMUS GLOBAL
     private static FileWriter fw;
     private static PrintWriter pw;
     private static String temp;
@@ -41,6 +39,9 @@ public class Output {
         }
     }
 
+    /**
+     * Log, tapi hanya enter
+     */
     public static void logln() {
         if (showLog) {
             System.out.println();
@@ -49,6 +50,7 @@ public class Output {
 
     /**
      * Membuat file external baru dan menyiapkan program untuk menulis ke file external
+     * @param namaFile nama file untuk output
      */
     public static void startTulis(String namaFile){
 
@@ -71,6 +73,7 @@ public class Output {
 
     /**
      * Mengeprint string ke layar, dan menyimpannya ke temp, untuk disiapkan untuk ditulis ke file external
+     * @param var string yang mau ditampilkan
      */
     public static void print(String var) {
         System.out.print(var);
@@ -82,6 +85,7 @@ public class Output {
 
     /**
      * prosedur print, tapi di-enter
+     * @param var string yang mau ditampilkan
      */
     public static void println(String var) {
         System.out.println(var);
@@ -103,29 +107,12 @@ public class Output {
     }
 
     /**
-     * menulis matriks ke file eksternal
-     */
-    public static void tulisMatriks(Matriks M) {
-
-
-
-            for (int i = 0; i < M.getBrs(); i++) {
-                for (int j = 0; j < M.getCol(); j++) {
-                    pw.print(M.get(i,j));
-                    pw.print(" ");
-                }
-                pw.println();
-            }
-            pw.println();
-
-    }
-
-    /**
      * selesai menulis ke file external dengan cara men-close printer
      */
     public static void selesaiTulis() {
         if(pw!=null){
             pw.close();
+            temp = "";
         }
     }
 }
