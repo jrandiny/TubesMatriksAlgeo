@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 public class Output {
     private static FileWriter fw;
     private static PrintWriter pw;
+    private static String temp;
 
     public static boolean showLog;
 
@@ -39,9 +40,13 @@ public class Output {
 
     }
 
+    public static void tulisFile(){
+        pw.print(temp);
+    }
+
     public static void print(String var) {
         System.out.print(var);
-        pw.print(var);
+        temp = var;
     }
 
     public static void println(String var) {
