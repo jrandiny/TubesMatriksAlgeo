@@ -135,7 +135,7 @@ public abstract class Matriks {
     }
 
     /**
-     * Mengembalikan true jika 1 baris nol semua
+     * Mengembalikan true jika 1 baris nol semua tidak termasuk augmented
      * @param row baris yang ingin dicek
      * @return true jika nol semua
      */
@@ -143,7 +143,7 @@ public abstract class Matriks {
         int j = 0;
         boolean allNol = true;
 
-        while (j < getCol()) {
+        while (j < getCol()-1) {
             if (get(row,j) != 0) {
                 allNol = false;
             }
@@ -154,46 +154,65 @@ public abstract class Matriks {
     }
 
     /**
+     * Mengembalikan true jika 1 baris nol semua termasuk augmented
+     * @param row baris yang ingin dicek
+     * @return true jika nol semua
+     */
+    private boolean NolSebarisFull(int row) {
+        boolean allNol =NolSebaris(row);
+
+        allNol = allNol && (get(row,getCol()-1)==0);
+
+        return allNol;
+    }
+
+    /**
      * Megubah matriks menjadi echelon form
      */
     public void gauss() {
-        double tempLead;
+        // KAMUS
+        double tempLead;   // Penampungan sementara leading di baris
         int baris = 0;
         int kolom = baris;
-        while (baris < getBrs() && kolom < getCol()) {
-            Output.logln();
-            Output.logln("START ROW BARU " + baris);
+        int k,l;
+        int i;
 
-            int k = baris;
-            int l = kolom;
-            Output.logln("CEK 0");
+        // ALGORITMA
+        while (baris < getBrs() && kolom < getCol()) {
+            // Cek per row
+
+            k = baris;
+            l = kolom;
+
+            // Jika baris 0 semua, skip
             if (!NolSebaris(baris)) {
+                // Cek leading point berikutnya (bukan 0)
+                /*
+                   Cek dilakukan dengan pertama di kolom yang sama ke bawah
+                   lalu jika sampai satu kolom tidak ada, akan ke kolom sampingnya.
+                   Hal ini dilakukan sampai ketemu (pasti ada, karena sudah dicek tidak nol semua)
+                 */
                 while (get(k, l) == 0) {
-                    Output.logln("0 detected, cek bukan 0 di " + k + "," + l);
                     k++;
-                    Output.logln("K++ -> " + k + "/" + getBrs());
+
+                    //Jika lebih dari baris yang ada, pindah kolom
                     if (k >= getBrs()) {
                         k = baris;
                         l++;
                         kolom++;
-                        Output.logln("Increment kolom ke " + l);
-                        if (l > getCol() - 2) {
-                            Output.logln("ERRORRRRRR");
-                        }
                     }
                 }
 
+                // Jika tempat yang ada angka bukan di baris itu, artinya harus dituker
                 if (k != baris) {
-                    Output.logln("TUKAR CALLED " + baris + " dengan " + k);
                     TukarRow(baris, k);
                 }
 
+                // Buat leading jadi 0
                 tempLead = get(baris, kolom);
-
                 Kali(baris, (1 / tempLead));
 
-                Output.logln("MATRIKS SUDAH DIKALI");
-
+                //Buat semua di bawah leading 0, dengan cara dikurangi kali leading
                 int j = baris + 1;
                 while (j < getBrs()) {
                     Tambah(j, baris, -get(j, kolom));
@@ -205,6 +224,43 @@ public abstract class Matriks {
             baris++;
             kolom++;
 
+        }
+
+        // Setelah selesai semua, pindahkan baris 0 semua ke bawah
+        sortZero();
+
+
+    }
+
+    /**
+     * Memindahkan semua baris 0 ke bawah
+     */
+    private void sortZero(){
+        // KAMUS
+        int i;
+        boolean dereteanNol;
+        int indexFirstOcc;
+
+        // ALGORITMA
+        indexFirstOcc = 0;
+        dereteanNol = false;
+        for (i = 0; i < getBrs(); i++) {
+        // Cek tiap baris
+
+            // Cek sudah ada deretan 0 atau belum
+            if(!dereteanNol){
+                if(NolSebarisFull(i)){
+                    // Jika 0 sebaris, tandai baris itu, untuk nanti swap
+                    indexFirstOcc = i;
+                    dereteanNol = true;
+                }
+            }else{
+                if(!NolSebarisFull(i)){
+                    // Kalau ketemu, tukar
+                    TukarRow(indexFirstOcc,i);
+                    indexFirstOcc++;
+                }
+            }
         }
     }
 
